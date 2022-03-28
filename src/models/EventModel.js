@@ -1,6 +1,7 @@
 const {DataTypes} = require("sequelize")
 const Sequelize = require("../database/db")
 const {IDS} = require("../utils/constants")
+const User  = require("../models/UserModel")
 
 const Event = Sequelize.define("Events", {
   id: {
@@ -13,6 +14,12 @@ const Event = Sequelize.define("Events", {
       type: DataTypes.UUID,
       defaultValue:DataTypes.UUIDV4,
       allowNull:false,
+      foreignKey:true,
+      references:{
+        model:User,
+        key:'id'
+
+      }
     },
     consents: {
         type:DataTypes.ENUM,
@@ -21,5 +28,6 @@ const Event = Sequelize.define("Events", {
         allowNull:false
       },
 })
+//Event.belongs(User)
 
 module.exports = Event

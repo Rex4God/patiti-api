@@ -23,9 +23,14 @@ const create =async (req, res) => {
     console.log("Error: ", err);
     res.status(StatusCodes.UNPROCESSABLE_ENTITY).json({ error: "Cannot register user at the moment!" });
   });
-  if (savedUser) 
+  const data={
+   id:savedUser.id,
+   email:savedUser.email,
+   consents:[]
+  }
+  if (data) 
   res.status(StatusCodes.CREATED).json({
-     savedUser,
+     data,
      message:'User created Successfully' });
 };
 
@@ -33,7 +38,7 @@ const getUser=async (req, res) => {
   const id = req.params.id;
    User.findByPk(id)
     .then(data => {
-      const vm ={id:data.id, email:data.email, consents:[]}
+      const vm ={id:data.id, email:data.email}
       res.send(vm);
     })
     .catch(err => {
@@ -52,11 +57,11 @@ const GetConsents =async (req, res)=>{
         userId:data.userId,
         consents: [
           {
-            "id": "email_notifications",
+            "id":IDS.EMAIL_NOTIFICATIONS,
             "enabled": false
           },
           {
-            "id": "sms_notifications",
+            "id":IDS.SMS_NOTIFICATIONS,
             "enabled": true
           }
         ]

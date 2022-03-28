@@ -20,7 +20,12 @@ const create= (req, res) => {
   //  Saving  event
   Event.create(event)
     .then(data => {
-      res.send(data);
+      const eventData={
+        id:data.id,
+        userId:data.userId,
+        consents:data.consents
+      }
+      res.send(eventData);
     })
     .catch(err => {
       res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({
